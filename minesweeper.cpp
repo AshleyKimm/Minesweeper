@@ -6,6 +6,7 @@ int main();
 std::vector<std::vector<int>> solution(std::vector<std::vector<bool>> matrix);
 void printBoard(int x, int y, int mine, std::vector<std::vector<char>> board);
 void positionMine(int x, int y, int mine, std::vector<std::vector<char>> board);
+void checkValidInput(int input);
 
 int main() {
     std::vector<std::vector<bool>> input{};
@@ -15,8 +16,10 @@ int main() {
 
     std::cout << "Welcome to minesweeper game! \nEnter the size of matrix: \nNumber of columns (x): ";
     std::cin >> x;
+    checkValidInput(x);
     std::cout << "Number of rows (y): ";
     std::cin >> y;
+    checkValidInput(y);
 
     for (int j{}; j < y; ++j) {
         for (int i{}; i < x; ++i) {
@@ -29,7 +32,12 @@ int main() {
     
     std::cout << "Enter the number of mines to hide: ";
     std::cin >> mine;
-
+    while (true) {
+        checkValidInput(mine);
+        if (mine <= (x*y)) break;
+        std::cout << "Number of mines cannot exceed the number of elements in the matrix. \n";
+    }
+    
     positionMine(x, y, mine, display);
 
     /*
@@ -50,8 +58,17 @@ int main() {
     return 0;
 }
 
+void checkValidInput(int input) {
+    while (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore();
+        std::cout << "Invalid input; please enter a valid value. \n";
+        std::cin >> input;
+    }
+}
+
+
 void printBoard(int x, int y, int mine, std::vector<std::vector<char>> display) {
-    
     for (int row{}; row < y + 1; ++row) {
         for (int col{}; col < x; ++col) {
             if (row == 0) std::cout << char('a' + col) << "\t";
@@ -71,16 +88,18 @@ void positionMine(int sizex, int sizey, int mine, std::vector<std::vector<char>>
 
         // while loops to ensure the inputs are valid characters
         while (true) {
-            std::cout << "Enter the x position of mine # " << mine - i;
+            std::cout << "Enter the x position of mine # " << mine - i << ": ";
             std::cin >> inputx;
+            checkValidInput(inputx);
             if (inputx >= 'a' && inputx <= ('a' + sizex)) break;
             std::cout << "Please enter a valid character.\n";
         }
         x.push_back(inputx);
 
         while (true) {
-            std::cout << "Enter the y position of mine # " << mine - i;
+            std::cout << "Enter the y position of mine # " << mine - i << ": ";
             std::cin >> inputy;
+            checkValidInput(inputy);
             if (inputy >= 1 && inputy <= sizey) break;
             std::cout << "Please enter a valid character.\n"; 
         }
