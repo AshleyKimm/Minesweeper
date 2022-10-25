@@ -10,6 +10,8 @@ void checkValidInput(int input);
 
 int main() {
     std::vector<std::vector<bool>> input{};
+
+    // Char vector array that displays the position of mines
     std::vector<std::vector<char>> display{};
     std::vector<char> displayRow{};
     int x, y, mine{};
@@ -35,7 +37,7 @@ int main() {
     while (true) {
         checkValidInput(mine);
         if (mine <= (x*y)) break;
-        std::cout << "Number of mines cannot exceed the number of elements in the matrix. \n";
+        std::cout << "Number of mines cannot exceed the number of elements of the matrix. \n";
     }
     
     positionMine(x, y, mine, display);
